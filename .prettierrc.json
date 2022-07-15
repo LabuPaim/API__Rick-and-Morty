@@ -4,5 +4,5 @@
   "endOfLine": "lf",
   "tabWidth": 2,
   "arrowParens": "always",
-  "printWidth": 110
+  "printWidth": 100
 }
