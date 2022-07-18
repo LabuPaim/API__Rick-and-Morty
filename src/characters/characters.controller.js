@@ -1,8 +1,8 @@
 const service__CHARACTERS = require('./characters.service');
 
 const controller__create_CHARACTERS = async (req, res, next) => {
-  const { name, imagem } = req.body;
-  if (!name || !imagem) {
+  const { name, imageUrl } = req.body;
+  if (!name || !imageUrl) {
     return res.status(400).send({ message: 'Alguns campos estão faltando.' });
   }
 
@@ -13,7 +13,7 @@ const controller__create_CHARACTERS = async (req, res, next) => {
     return res.status(400).send({ message: 'Erro ao criar usuário.' });
   }
 
-  res.status(201).send({ character: { id: character.id, name, imagem } });
+  res.status(201).send({ character: { id: character.id, name, imageUrl } });
 };
 
 const controller__all_CHARACTERS = async (req, res, next) => {
@@ -21,7 +21,16 @@ const controller__all_CHARACTERS = async (req, res, next) => {
   if (character__ALL.length === 0) {
     return res.status(404).send({ message: 'Não existe nenhuma Character cadastrado' });
   }
-  res.send(character__ALL);
+
+  res.send({
+    results: character__ALL.map((character) => ({
+      id: character._id,
+      user: character.user,
+      name: character.name,
+      imageUrl: character.imageUrl,
+    })),
+    total: character__ALL.length,
+  });
 };
 
 const controller__byid_CHARACTERS = async (req, res, next) => {
@@ -50,8 +59,8 @@ const controller__delete_CHARACTERS = async (req, res, next) => {
 };
 
 const controller__byname_CHARACTERS = async (req, res, next) => {
-  const param__ID = req.params.id;
-  const select__CHARACTERS = await service__CHARACTERS.service__byname__CHARACTERS(param__ID);
+  const param__NAME = req.params.name;
+  const select__CHARACTERS = await service__CHARACTERS.service__byname__CHARACTERS(param__NAME);
   if (!select__CHARACTERS) {
     return res.status(404).send({ message: 'Usuário não encontrado' });
   }

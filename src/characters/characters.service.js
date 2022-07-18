@@ -6,7 +6,7 @@ const Characters = require('./Characters');
 
 const service__create__CHARACTERS = (character) => Characters.create(character);
 const service__all__CHARACTERS = async () => {
-  const character = await Characters.find();
+  const character = await Characters.find().populate('user')
   return character;
 };
 
@@ -24,8 +24,10 @@ const service__delete__CHARACTERS = async (id) => {
   return await Characters.findByIdAndDelete(id);
 };
 
-const service__byname__CHARACTERS = async (charac) => {
-  const character = await Characters.map(charac.name);
+const service__byname__CHARACTERS = async (name) => {
+  const character = await Characters.find({ name: { $regex: `${name || ''}`, $options: 'i' } })
+    .sort({ _id: -1 })
+    .populate('user');
   return character;
 };
 
