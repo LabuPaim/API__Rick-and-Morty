@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const parts = authHeader.split(' ');
   const [scheme, token] = parts;
-  if (!authHeader || parts.length !== 2 || !/^Bearer^/i.test(scheme)) {
+  if (!authHeader || parts.length !== 2 || !/^Bearer$/i.test(scheme)) {
     return res.status(403).send({ message: 'Token não informado' });
   }
 
