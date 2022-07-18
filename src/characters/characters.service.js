@@ -26,8 +26,8 @@ const service__delete__CHARACTERS = async (id) => {
 
 const service__byname__CHARACTERS = async (name) => {
   const character = await Characters.find({ name: { $regex: `${name || ''}`, $options: 'i' } })
-    .sort({ _id: -1 })
     .populate('user');
+    console.log(character);
   return character;
 };
 

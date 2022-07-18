@@ -59,12 +59,21 @@ const controller__delete_CHARACTERS = async (req, res, next) => {
 };
 
 const controller__byname_CHARACTERS = async (req, res, next) => {
-  const param__NAME = req.params.name;
+  const param__NAME = req.query.name;
   const select__CHARACTERS = await service__CHARACTERS.service__byname__CHARACTERS(param__NAME);
+  console.log(select__CHARACTERS);
   if (!select__CHARACTERS) {
     return res.status(404).send({ message: 'Usuário não encontrado' });
   }
-  res.send(select__CHARACTERS);
+  res.send({
+    characters: select__CHARACTERS.map((character) => ({
+      id: character._id,
+      user: character.user,
+      name: character.name,
+      imageUrl: character.imageUrl,
+    })),
+    total: select__CHARACTERS.length,
+  });
 };
 
 module.exports = {

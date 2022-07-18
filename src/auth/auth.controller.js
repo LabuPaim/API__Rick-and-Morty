@@ -6,8 +6,6 @@ const controller__LOGIN = async (req, res) => {
   const { email, password } = req.body;
   const user = await service__AUTH.service__LOGIN(email);
 
-  console.log(user);
-
   if (!user) {
     return res.status(404).send('Usuário não encontrado.');
   }
