@@ -4,6 +4,7 @@ const cors = require('cors');
 const connect__DB = require('./database/database');
 const user__ROUTE = require('./users/users.route');
 const auth__ROUTE = require("./auth/auth.route");
+const character__ROUTE = require("./characters/characters.route");
 
 const port = process.env.PORT || 3001;
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/users', user__ROUTE)
 app.use("/auth", auth__ROUTE);
+app.use("/characters", character__ROUTE);
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
