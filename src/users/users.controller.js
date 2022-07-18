@@ -1,4 +1,5 @@
 const service__USER = require('./users.service');
+const service__AUTH = require('../auth/auth.service');
 
 const controller__create_USER = async (req, res, next) => {
   const { name, username, email, password, avatar } = req.body;
@@ -18,7 +19,9 @@ const controller__create_USER = async (req, res, next) => {
     return res.status(400).send({ message: 'Erro ao criar usuário.' });
   }
 
-  res.status(201).send(user);
+  const token = service__AUTH.token__GENERATE(user.id);
+
+  res.status(201).send({ user: { id: user.id, name, username, email, avatar }, token });
 };
 
 const controller__all_USER = async (req, res, next) => {

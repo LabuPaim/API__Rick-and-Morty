@@ -1,26 +1,24 @@
+require("dotenv").config();
 const service__AUTH = require('./auth.service');
 const bcrypt = require('bcryptjs');
 
 const controller__LOGIN = async (req, res) => {
   const { email, password } = req.body;
-  const user = await service__AUTH.service__LOGIN(email)
+  const user = await service__AUTH.service__LOGIN(email);
 
   if (!user) {
-    return res.status(403).send({ message: "Usuário não encontrado." });
+    return res.status(403).send({ message: 'Usuário não encontrado.' });
   }
 
-  const password__VALID = await bcrypt.compare(password, user.password)
+  const password__VALID = await bcrypt.compare(password, user.password);
 
   if (!password__VALID) {
-    return res.status(403).send({ message: "Senha inválida"});
+    return res.status(403).send({ message: 'Senha inválida' });
   }
 
+  const token = service__AUTH.token__GENERATE(user.id);
 
-
-
-
-
-  res.send(user);
+  res.send( {token} );
 };
 
 module.exports = {
