@@ -4,7 +4,7 @@ const Characters = require('./Characters');
 //   Characters.create({ message, user: user__ID });
 // };
 
-const service__create__CHARACTERS = (character) => Characters.create(character);
+const service__create__CHARACTERS = (name, imageUrl, user__ID) => Characters.create({ name, imageUrl, user: user__ID });
 const service__all__CHARACTERS = async () => {
   const character = await Characters.find().populate('user')
   return character;

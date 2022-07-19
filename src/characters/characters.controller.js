@@ -1,19 +1,23 @@
 const service__CHARACTERS = require('./characters.service');
+const auth = require('../auth/auth.middleware');
 
 const controller__create_CHARACTERS = async (req, res, next) => {
-  const { name, imageUrl } = req.body;
-  if (!name || !imageUrl) {
-    return res.status(400).send({ message: 'Alguns campos estão faltando.' });
-  }
+  try {
+    const { name, imageUrl } = req.body;
 
-  const character = await service__CHARACTERS
-    .service__create__CHARACTERS(req.body)
-    .catch((err) => console.log(err.message));
-  if (!character) {
-    return res.status(400).send({ message: 'Erro ao criar usuário.' });
-  }
+    const { id } = await service__CHARACTERS.service__create__CHARACTERS(
+      name,
+      imageUrl,
+      req.user__ID,
+    );
 
-  res.status(201).send({ character: { id: character.id, name, imageUrl } });
+    res.status(201).send({
+      message: 'created',
+      characters: { id, name, imageUrl },
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 };
 
 const controller__all_CHARACTERS = async (req, res, next) => {

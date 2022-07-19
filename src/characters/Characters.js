@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
-  // user:{
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User',
-  //   required: true
-  // },
+const CharacterSchema = new mongoose.Schema({
+  user:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   name: {
     type: String,
     required: true,
@@ -18,6 +18,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 
-const Characters = mongoose.model('Characters', UserSchema);
+const Characters = mongoose.model('characters', CharacterSchema);
 
 module.exports = Characters;
